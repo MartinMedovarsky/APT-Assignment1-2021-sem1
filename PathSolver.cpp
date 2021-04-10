@@ -4,15 +4,12 @@ using std::cout;
 using std::endl;
 
 PathSolver::PathSolver(){
-    // TODO
 }
 
 PathSolver::~PathSolver(){
-    // TODO
 }
 
 void PathSolver::forwardSearch(Env env){
-    // TODO 
     // Setting up vars for start and goal
     int startX = 0, startY = 0, goalX = 0, goalY = 0;
 
@@ -28,20 +25,11 @@ void PathSolver::forwardSearch(Env env){
 
     NodeList* closedList = new NodeList();
 
-    //TESTING REMOVE LATER
-    cout << "start: " << start->getRow() << ", " << start->getCol() << endl;
-    cout << "goal: " << goal->getRow() << ", " << goal->getCol() << endl;
-
-    cout << "testing nextOpenNode function" << endl;
-
     bool reachedGoal = false;
 
     while(reachedGoal == false){
         
         Node* nextNode = nextOpenNode(goal, openList, closedList);
-
-        cout << "nextNode: " << nextNode->getCol() << ", " << nextNode->getRow() 
-        << endl;
 
         //Arrays of coords for adjacent nodes (up,right,down,left)
         //Adjacent Postion X / Y
@@ -78,7 +66,6 @@ void PathSolver::forwardSearch(Env env){
             }
         }
         closedList->addElement(nextNode);
-        cout << "--------------CLOSED LIST UPDATED----------------" << endl;
 
         if (nodeEquals(nextNode, goal)){
             reachedGoal = true;
@@ -89,39 +76,6 @@ void PathSolver::forwardSearch(Env env){
     //Setting nodes explored to point to the closed list. 
     this->nodesExplored = new NodeList();
     this->nodesExplored = closedList;
-    //cout << "Lengtha: " << this->nodesExplored->getLength() << endl;
-
-    Node* bigtester = nodesExplored->getNode(1);
-
-    cout << "NODESEXPLORED TEST:" << bigtester->getCol() << ", " << bigtester->getRow() << endl;
-    cout << "LENGTH: " << nodesExplored->getLength();
-
-    //TESTING MUST DELETE WHOLE BLOCK Print out the NodeList
-    cout << "PRINTING OUT OPENLIST:" << endl;
-    int len = openList->getLength();
-    for (int i=0; i < len; i++){
-        Node* current = openList->getNode(i);
-        cout << "Node " << i << ": " << endl;
-        cout << "Row: " << current->getRow() << ", ";
-        cout << "Col: " << current->getCol() << ", ";
-        cout << "DisTrav: " << current->getDistanceTraveled() << endl;
-        cout << "----------------------------" << endl;
-    }
-
-    cout << endl << endl << endl;
-
-    cout << "PRINTING OUT CLOSEDLIST:" << endl;
-    len = closedList->getLength();
-    for (int i=0; i < len; i++){
-        Node* current = closedList->getNode(i);
-        cout << "Node " << i << ": " << endl;
-        cout << "Row: " << current->getRow() << ", ";
-        cout << "Col: " << current->getCol() << ", ";
-        cout << "DisTrav: " << current->getDistanceTraveled() << endl;
-        cout << "----------------------------" << endl;
-    }
-
-    cout << endl << endl << endl;
 
     //delete openList;
     //delete closedList;
@@ -186,7 +140,6 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
         }
     }
 
-    cout << "smallest dist: " << smallestDist << "next node" << nextNodeIndex << endl;
     return oList->getNode(nextNodeIndex);
  
 }
@@ -195,7 +148,6 @@ bool PathSolver::nodeEquals(Node* openNode, Node* closedNode){
     //Checks if columns are same then if rows are
     if(openNode->getCol() == closedNode->getCol()){
         if(openNode->getRow() == closedNode->getRow()){
-            cout << "Match found!" << endl;
             return true;
         }
     }
@@ -203,21 +155,10 @@ bool PathSolver::nodeEquals(Node* openNode, Node* closedNode){
 }
 
 NodeList* PathSolver::getNodesExplored(){
-    //TODO
-    //TEMP RETURN VVV
-    Node* tester = new Node(*nodesExplored->getNode(1));
-    cout << "EGSIODFSGV: " << tester->getCol() << ", " << tester->getRow() << endl;
-
     return new NodeList(*nodesExplored);
 }
 
 NodeList* PathSolver::getPath(Env env){
-    // TODO
-    //TEMP RETURN VVV
-    //store the shortest path in an array first in reverse order
-    //as it is found, then loop through the array of nodes
-    //backwards and add each on to a nodeList that is returned
-    //by this function
     NodeList* nodesExplored = getNodesExplored();
     int len = nodesExplored->getLength();
 
@@ -231,7 +172,6 @@ NodeList* PathSolver::getPath(Env env){
 
     bool unsolved = true;
     while (unsolved) {
-    //for(int x=0;x<30;x++) {
         //Arrays of coords for adjacent nodes (up,right,down,left)
         //Adjacent Postion X / Y
         const int adjCount = 4; 
@@ -269,7 +209,6 @@ NodeList* PathSolver::getPath(Env env){
 
         if(nodeEquals(nextNode,nodesExplored->getNode(0))){
                 unsolved = false;
-                cout << "SOLVED!!!!!!" << endl;
         }
 
     }
@@ -283,18 +222,5 @@ NodeList* PathSolver::getPath(Env env){
         solution->addElement(BWsolution->getNode(i));
     }
 
-    cout << "PRINTING OUT BWSOLTION:" << endl;
-    len = solution->getLength();
-    for (int i=0; i < len; i++){
-        Node* current = solution->getNode(i);
-        cout << "Node " << i << ": " << endl;
-        cout << "Row: " << current->getRow() << ", ";
-        cout << "Col: " << current->getCol() << ", ";
-        cout << "DisTrav: " << current->getDistanceTraveled() << endl;
-        cout << "----------------------------" << endl;
-    }
-
     return new NodeList(*solution);
 }
-
-//-----------------------------

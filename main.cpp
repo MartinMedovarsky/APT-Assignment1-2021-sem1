@@ -47,11 +47,6 @@ int main(int argc, char** argv){
     NodeList* exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
 
-    //TESTING GETNODESEXPLORED()
-    //Node* noder = exploredPositions->getNode(0);
-    //cout << "TESTING GETNODESEXPLORED" << endl;
-    //cout << "col: " << noder->getCol() << ", " << noder->getRow() << endl;
-
     int len = exploredPositions->getLength();
     for (int i=0; i < len; i++){
         Node* current = exploredPositions->getNode(i);
@@ -91,8 +86,31 @@ void readEnvStdin(Env env){
 
 void printEnvStdout(Env env, NodeList* solution) {
     //TODO
-    //loop prints env
-    cout << "PRINTING INPUTTED ENV" << endl;
+
+    int len = solution->getLength();
+
+    Node* current = solution->getNode(0);
+    Node* next = solution->getNode(1);
+    //Loops through solutions and edits ENV with arrows to display solution
+    for(int i=0; i<len-2; i++){
+        if(next->getCol() > current->getCol()){
+            env[next->getRow()][next->getCol()] = '>';
+        } else if (next->getCol() < current->getCol()){
+            env[next->getRow()][next->getCol()] = '<';
+        } else if (next->getRow() > current->getRow()){
+            env[next->getRow()][next->getCol()] = 'V';
+        } else {env[next->getRow()][next->getCol()] = '^';}
+
+        //checks where the loop is upto and prevents accessing non-existent node
+        if (i == len-1){   
+        } else {
+            current = next;
+            next = solution->getNode(i+2);
+        }
+    }
+
+    //Prints out edited env which displays solution
+    cout << "PRINTING SOLUTION" << endl;
     for(int y=0; y < 20; y++){
         for(int x=0; x < 20; x++){
             cout << env[y][x];
@@ -100,8 +118,6 @@ void printEnvStdout(Env env, NodeList* solution) {
         cout << endl;
     }
 
-    //Loop prints env edited with solution
-    
 }
 
 void testNode() {
