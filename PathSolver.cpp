@@ -51,9 +51,6 @@ void PathSolver::forwardSearch(Env env){
 
         int adjPosY[adjCount] = {nextNode->getRow()-1, nextNode->getRow(),
         nextNode->getRow()+1 ,nextNode->getRow()};
-
-        //TESTING REMOVE
-        cout << "PRINTING ADJACENT NODES: " << endl;
         
         //Looping through adjacent env elements.
         for(int i=0; i < adjCount; i++){
@@ -221,8 +218,83 @@ NodeList* PathSolver::getPath(Env env){
     //as it is found, then loop through the array of nodes
     //backwards and add each on to a nodeList that is returned
     //by this function
+    NodeList* nodesExplored = getNodesExplored();
+    int len = nodesExplored->getLength();
 
-    return new NodeList();
+    //Backwards solution, gets path nodes added to it
+    NodeList* BWsolution = new NodeList();
+
+    Node* nextNode = nodesExplored->getNode(len-1);
+    BWsolution->addElement(nextNode);
+
+    int smallestDist = nextNode->getDistanceTraveled();
+
+    bool unsolved = true;
+    while (unsolved) {
+    //for(int x=0;x<30;x++) {
+        //Arrays of coords for adjacent nodes (up,right,down,left)
+        //Adjacent Postion X / Y
+        const int adjCount = 4; 
+        int adjPosX[adjCount] = {nextNode->getCol(), nextNode->getCol()+1,
+        nextNode->getCol(), nextNode->getCol()-1};
+
+        int adjPosY[adjCount] = {nextNode->getRow()-1, nextNode->getRow(),
+        nextNode->getRow()+1 ,nextNode->getRow()};
+
+        //Looping through adjacent env elements.
+        for(int i=0; i < adjCount; i++){
+            char possibleNode = env[adjPosY[i]][adjPosX[i]];
+            //Checking that char is accessible 
+            if (possibleNode != '='){
+                Node* adjacent = new Node(adjPosY[i], adjPosX[i],
+                nextNode->getDistanceTraveled()-1);
+
+                //Loop through nodesExplored backwards
+                for(int l = len-1; l >= 0; l--){
+                    //Checks that the adjacent node is present in nodesExplored
+                    Node* currentNode = nodesExplored->getNode(l);
+
+                    cout << adjacent->getCol() << ", " << adjacent->getRow() << endl;
+
+                    if(nodeEquals(currentNode,adjacent)){
+                        if (currentNode->getDistanceTraveled() < smallestDist){
+                            nextNode = currentNode;
+                            smallestDist = currentNode->getDistanceTraveled();
+                        }
+                    } 
+                }
+            }
+        }
+        BWsolution->addElement(nextNode);
+
+        if(nodeEquals(nextNode,nodesExplored->getNode(0))){
+                unsolved = false;
+                cout << "SOLVED!!!!!!" << endl;
+        }
+
+    }
+
+    //New nodeList with correct ordering
+    NodeList* solution = new NodeList();
+
+    int bwLen = BWsolution->getLength();
+    //Loop through the BWsolution backwards and add each node to solution
+    for(int i=bwLen-1; i >= 0; i--){
+        solution->addElement(BWsolution->getNode(i));
+    }
+
+    cout << "PRINTING OUT BWSOLTION:" << endl;
+    len = solution->getLength();
+    for (int i=0; i < len; i++){
+        Node* current = solution->getNode(i);
+        cout << "Node " << i << ": " << endl;
+        cout << "Row: " << current->getRow() << ", ";
+        cout << "Col: " << current->getCol() << ", ";
+        cout << "DisTrav: " << current->getDistanceTraveled() << endl;
+        cout << "----------------------------" << endl;
+    }
+
+    return new NodeList(*solution);
 }
 
 //-----------------------------

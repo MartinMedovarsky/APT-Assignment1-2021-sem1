@@ -91,7 +91,7 @@ void readEnvStdin(Env env){
 
 void printEnvStdout(Env env, NodeList* solution) {
     //TODO
-    //TESTING loop prints env
+    //loop prints env
     cout << "PRINTING INPUTTED ENV" << endl;
     for(int y=0; y < 20; y++){
         for(int x=0; x < 20; x++){
@@ -99,6 +99,9 @@ void printEnvStdout(Env env, NodeList* solution) {
         }
         cout << endl;
     }
+
+    //Loop prints env edited with solution
+    
 }
 
 void testNode() {
