@@ -31,8 +31,8 @@ int main(int argc, char** argv){
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
     std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
-    testNode();
-    testNodeList();
+    //testNode();
+    //testNodeList();
     std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
@@ -47,15 +47,15 @@ int main(int argc, char** argv){
     NodeList* exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
 
-    int len = exploredPositions->getLength();
-    for (int i=0; i < len; i++){
-        Node* current = exploredPositions->getNode(i);
-        cout << "Node " << i << ": " << endl;
-        cout << "Row: " << current->getRow() << ", ";
-        cout << "Col: " << current->getCol() << ", ";
-        cout << "DisTrav: " << current->getDistanceTraveled() << endl;
-        cout << "----------------------------" << endl;
-    }
+    // int len = exploredPositions->getLength();
+    // for (int i=0; i < len; i++){
+    //     Node* current = exploredPositions->getNode(i);
+    //     cout << "Node " << i << ": " << endl;
+    //     cout << "Row: " << current->getRow() << ", ";
+    //     cout << "Col: " << current->getCol() << ", ";
+    //     cout << "DisTrav: " << current->getDistanceTraveled() << endl;
+    //     cout << "----------------------------" << endl;
+    // }
 
 
 
@@ -163,8 +163,8 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST:" << std::endl;
-    int len = nodeList->getLength();
-    for (int i=0; i < len; i++){
+    int leng = nodeList->getLength();
+    for (int i=0; i < leng; i++){
         Node* current = nodeList->getNode(i);
         std::cout << "Node " << i << ": " << std::endl;
         std::cout << "Row: " << current->getRow() << ", ";

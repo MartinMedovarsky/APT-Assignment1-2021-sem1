@@ -194,8 +194,6 @@ NodeList* PathSolver::getPath(Env env){
                     //Checks that the adjacent node is present in nodesExplored
                     Node* currentNode = nodesExplored->getNode(l);
 
-                    cout << adjacent->getCol() << ", " << adjacent->getRow() << endl;
-
                     if(nodeEquals(currentNode,adjacent)){
                         if (currentNode->getDistanceTraveled() < smallestDist){
                             nextNode = currentNode;
