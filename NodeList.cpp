@@ -14,11 +14,9 @@ NodeList::NodeList(NodeList& other){
     // TODO
     length = 0;
     int len = other.getLength();
-    std::cout << "len: " << len << std::endl;
     for (int i = 0; i < len; i++ ){
         nodes[i] = new Node(*other.getNode(i));
         length++;
-        std::cout << "TESTING COPYCONSTRUCTYER" << std::endl;
     }
 }
 

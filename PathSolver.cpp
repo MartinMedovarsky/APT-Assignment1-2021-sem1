@@ -19,12 +19,6 @@ void PathSolver::forwardSearch(Env env){
     //Calling method to find start and goal
     findStartGoal(env, &startX, &startY, &goalX, &goalY);
 
-    //REMOVE LATER
-    //cout << startX << ", " << startY << " | " << goalX << ", " << goalY << endl;
-    //exit(EXIT_SUCCESS);
-    //REMOVE ^^^
-    //SOMETHING IS BACKWARDS WITH FINDING START / GOAL
-
     //Creating nodes for start and goal
     Node* start = new Node(startY, startX, 0);
     Node* goal = new Node(goalY, goalX, 0);
@@ -33,14 +27,6 @@ void PathSolver::forwardSearch(Env env){
     openList->addElement(start);
 
     NodeList* closedList = new NodeList();
-
-    // bool unsolved = true;
-    // while (unsolved){
-
-    // }
-
-    //Need to find node from open not in closed
-    //and smallest estimated distance
 
     //TESTING REMOVE LATER
     cout << "start: " << start->getRow() << ", " << start->getCol() << endl;
@@ -125,6 +111,8 @@ void PathSolver::forwardSearch(Env env){
         cout << "----------------------------" << endl;
     }
 
+    cout << endl << endl << endl;
+
     cout << "PRINTING OUT CLOSEDLIST:" << endl;
     len = closedList->getLength();
     for (int i=0; i < len; i++){
@@ -136,6 +124,8 @@ void PathSolver::forwardSearch(Env env){
         cout << "----------------------------" << endl;
     }
 
+    cout << endl << endl << endl;
+
     //delete openList;
     //delete closedList;
 }
@@ -145,6 +135,7 @@ void PathSolver::findStartGoal(Env env, int *sX, int *sY, int *gX, int *gY){
     //Loop to find start and goal
     for(int y=0; y < 20; y++){
         for(int x=0; x < 20; x++){
+            //Gives the values of start / goal to pointers
             if (env[y][x] == 'S'){
                 *sX = x;
                 *sY = y;
@@ -157,22 +148,22 @@ void PathSolver::findStartGoal(Env env, int *sX, int *sY, int *gX, int *gY){
 }
 
 Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
+    //Setting variables with the lengths of each list
     int openLen = oList->getLength();
     int closedLen = cList->getLength();
 
     int smallestDist = NODE_LIST_ARRAY_MAX_SIZE;
     int nextNodeIndex = 0;
     
+    //special case for first method call
     if (oList->getLength() == 1){
         return oList->getNode(0);
     } else {
 
+        //Loops through open list and 
         for (int i=0; i<openLen; i++){
             Node* openNode = oList->getNode(i);
-            cout << "printing open List: " << openNode->getCol() 
-            << ", " << openNode->getRow() << ", " << openNode->getDistanceTraveled() << endl;
-            cout << "EST DIST TO GOAL: " << openNode->getEstimatedDist2Goal(goal) << endl;
-
+            
             int tempSmallestDist = smallestDist;
             int tempNextNodeIndex = nextNodeIndex;
             bool present = false;
@@ -180,7 +171,6 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
             for (int l=0; l<closedLen; l++){
                 Node* closedNode = cList->getNode(l);
 
-                //NEED TO EXIT LOOP IF CONDITION IS MET STOOOGE
                 if (nodeEquals(openNode, closedNode) != true){
                     if (openNode->getEstimatedDist2Goal(goal) < smallestDist){
                         tempSmallestDist= openNode->getEstimatedDist2Goal(goal);
@@ -205,6 +195,7 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
 }
 
 bool PathSolver::nodeEquals(Node* openNode, Node* closedNode){
+    //Checks if columns are same then if rows are
     if(openNode->getCol() == closedNode->getCol()){
         if(openNode->getRow() == closedNode->getRow()){
             cout << "Match found!" << endl;
@@ -226,6 +217,11 @@ NodeList* PathSolver::getNodesExplored(){
 NodeList* PathSolver::getPath(Env env){
     // TODO
     //TEMP RETURN VVV
+    //store the shortest path in an array first in reverse order
+    //as it is found, then loop through the array of nodes
+    //backwards and add each on to a nodeList that is returned
+    //by this function
+
     return new NodeList();
 }
 
