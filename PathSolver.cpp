@@ -7,6 +7,8 @@ PathSolver::PathSolver(){
 }
 
 PathSolver::~PathSolver(){
+    delete this->nodesExplored;
+    delete this->solution;
 }
 
 void PathSolver::forwardSearch(Env env){
@@ -63,6 +65,7 @@ void PathSolver::forwardSearch(Env env){
                 if (present != true){
                     openList->addElement(adjacent);
                 }
+                delete adjacent;
             }
         }
         closedList->addElement(nextNode);
@@ -74,11 +77,12 @@ void PathSolver::forwardSearch(Env env){
     }
 
     //Setting nodes explored to point to the closed list. 
-    this->nodesExplored = new NodeList();
-    this->nodesExplored = closedList;
+    this->nodesExplored = new NodeList(*closedList);
 
-    //delete openList;
-    //delete closedList;
+    delete start;
+    delete goal;
+    delete openList;
+    delete closedList;
 }
 
 void PathSolver::findStartGoal(Env env, int *sX, int *sY, int *gX, int *gY){
@@ -159,7 +163,6 @@ NodeList* PathSolver::getNodesExplored(){
 }
 
 NodeList* PathSolver::getPath(Env env){
-    NodeList* nodesExplored = getNodesExplored();
     int len = nodesExplored->getLength();
 
     //Backwards solution, gets path nodes added to it
@@ -201,6 +204,7 @@ NodeList* PathSolver::getPath(Env env){
                         }
                     } 
                 }
+                delete adjacent;
             }
         }
         BWsolution->addElement(nextNode);
@@ -212,13 +216,15 @@ NodeList* PathSolver::getPath(Env env){
     }
 
     //New nodeList with correct ordering
-    NodeList* solution = new NodeList();
+    this->solution = new NodeList();
 
     int bwLen = BWsolution->getLength();
     //Loop through the BWsolution backwards and add each node to solution
     for(int i=bwLen-1; i >= 0; i--){
         solution->addElement(BWsolution->getNode(i));
     }
+
+    delete BWsolution;
 
     return new NodeList(*solution);
 }

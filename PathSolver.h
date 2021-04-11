@@ -56,6 +56,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+    // Nodes representing solution from start to goal
+    NodeList* solution;
     
 };
 

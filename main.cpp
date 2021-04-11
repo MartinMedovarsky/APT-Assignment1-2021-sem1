@@ -47,27 +47,13 @@ int main(int argc, char** argv){
     NodeList* exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
 
-    // int len = exploredPositions->getLength();
-    // for (int i=0; i < len; i++){
-    //     Node* current = exploredPositions->getNode(i);
-    //     cout << "Node " << i << ": " << endl;
-    //     cout << "Row: " << current->getRow() << ", ";
-    //     cout << "Col: " << current->getCol() << ", ";
-    //     cout << "DisTrav: " << current->getDistanceTraveled() << endl;
-    //     cout << "----------------------------" << endl;
-    // }
-
-
-
-    // Get the path
-    // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList* solution = pathSolver->getPath(env);
 
     printEnvStdout(env, solution);
 
-    delete pathSolver;
     delete exploredPositions;
     delete solution;
+    delete pathSolver;
 
 }
 
@@ -172,4 +158,9 @@ void testNodeList() {
         std::cout << "DisTrav: " << current->getDistanceTraveled() << std::endl;
         std::cout << "----------------------------" << std::endl;
     }
+
+    delete b1;
+    delete b2;
+    delete nodeList;
+
 }

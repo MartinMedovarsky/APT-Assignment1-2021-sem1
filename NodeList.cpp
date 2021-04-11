@@ -8,6 +8,10 @@ NodeList::NodeList(){
 
 NodeList::~NodeList(){
     // TODO
+    int len = this->getLength();
+    for(int i=0; i<len; i++){
+        delete(this->getNode(i));
+    }
 }
 
 NodeList::NodeList(NodeList& other){
