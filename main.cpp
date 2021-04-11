@@ -95,12 +95,18 @@ void printEnvStdout(Env env, NodeList* solution) {
         }
     }
 
+    const int lineLen = 20;
+    const int lastLine = 19;
+
     //Prints out edited env which displays solution
-    for(int y=0; y < 20; y++){
-        for(int x=0; x < 20; x++){
+    for(int y=0; y < lineLen; y++){
+        for(int x=0; x < lineLen; x++){
             cout << env[y][x];
         }
-        cout << endl;
+        if (y == lastLine){
+        } else {
+            cout << endl;
+        }
     }
 
 }
