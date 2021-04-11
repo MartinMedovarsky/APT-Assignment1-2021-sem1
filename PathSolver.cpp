@@ -1,7 +1,5 @@
 #include "PathSolver.h"
 #include <iostream>
-using std::cout;
-using std::endl;
 
 PathSolver::PathSolver(){
 }
@@ -22,15 +20,21 @@ void PathSolver::forwardSearch(Env env){
     Node* start = new Node(startY, startX, 0);
     Node* goal = new Node(goalY, goalX, 0);
 
+    //Creating openList to store accessible nodes
     NodeList* openList = new NodeList();
+    //Adding the start to the openList
     openList->addElement(start);
 
+    //Creating the closedList to store visited node
     NodeList* closedList = new NodeList();
 
     bool reachedGoal = false;
 
+    //While Loop contains logic used to search for adjacent nodes and add
+    //them to the closed and open lists as needed
     while(reachedGoal == false){
         
+        //Represents the node that is being 
         Node* nextNode = nextOpenNode(goal, openList, closedList);
 
         //Arrays of coords for adjacent nodes (up,right,down,left)
@@ -45,6 +49,7 @@ void PathSolver::forwardSearch(Env env){
         //Looping through adjacent env elements.
         for(int i=0; i < adjCount; i++){
             char possibleNode = env[adjPosY[i]][adjPosX[i]];
+
             //Checking that char is accessible 
             if (possibleNode != '='){
                 Node* adjacent = new Node(adjPosY[i], adjPosX[i],
@@ -53,6 +58,7 @@ void PathSolver::forwardSearch(Env env){
                 //Checking that the adjacent node isn't already in the openList
                 int len = openList->getLength();
                 bool present = false;
+
                 for (int l=0; l<len; l++){
                     Node* openNode = openList->getNode(l);
 
@@ -68,8 +74,11 @@ void PathSolver::forwardSearch(Env env){
                 delete adjacent;
             }
         }
+
+        //adding the visited node to the closedList
         closedList->addElement(nextNode);
 
+        //Checking if the goal node has been reached, and if so ending loop
         if (nodeEquals(nextNode, goal)){
             reachedGoal = true;
         }
@@ -90,7 +99,9 @@ void PathSolver::findStartGoal(Env env, int *sX, int *sY, int *gX, int *gY){
     //Loop to find start and goal
     for(int y=0; y < 20; y++){
         for(int x=0; x < 20; x++){
-            //Gives the values of start / goal to pointers
+
+            //Checks if the env position is a start or goal and gives the values
+            //of start / goal to pointers. sX refers to start x coordinate.
             if (env[y][x] == 'S'){
                 *sX = x;
                 *sY = y;
@@ -107,18 +118,24 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
     int openLen = oList->getLength();
     int closedLen = cList->getLength();
 
+    //inialising the smallest with the greatest possible distance.
     int smallestDist = NODE_LIST_ARRAY_MAX_SIZE;
     int nextNodeIndex = 0;
     
-    //special case for first method call
+    //Checks if only goal is present, and returns the goal
     if (oList->getLength() == 1){
         return oList->getNode(0);
     } else {
 
-        //Loops through open list and 
+        //Loops through openList and finds the most suitable next node
         for (int i=0; i<openLen; i++){
+
+            //stores the currently itereated node
             Node* openNode = oList->getNode(i);
             
+            //stores the values of next potential node with smallest distance
+            //This is done instead of immidately replacing if as the node
+            //needs to pass further checks (make sure its not in closed list)
             int tempSmallestDist = smallestDist;
             int tempNextNodeIndex = nextNodeIndex;
             bool present = false;
@@ -126,6 +143,7 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
             for (int l=0; l<closedLen; l++){
                 Node* closedNode = cList->getNode(l);
 
+                //Checking that 
                 if (nodeEquals(openNode, closedNode) != true){
                     if (openNode->getEstimatedDist2Goal(goal) < smallestDist){
                         tempSmallestDist= openNode->getEstimatedDist2Goal(goal);
@@ -135,7 +153,8 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
                     present = true; 
                 }
             }
-
+            
+            //Sets the smallest node values after the loop has concluded
             if (present == false){
                 smallestDist = tempSmallestDist;
                 nextNodeIndex = tempNextNodeIndex;
@@ -149,7 +168,7 @@ Node* PathSolver::nextOpenNode(Node* goal, NodeList* oList, NodeList* cList){
 }
 
 bool PathSolver::nodeEquals(Node* openNode, Node* closedNode){
-    //Checks if columns are same then if rows are
+    //Checks if columns are same then if rows are too
     if(openNode->getCol() == closedNode->getCol()){
         if(openNode->getRow() == closedNode->getRow()){
             return true;
@@ -175,6 +194,7 @@ NodeList* PathSolver::getPath(Env env){
 
     bool unsolved = true;
     while (unsolved) {
+        
         //Arrays of coords for adjacent nodes (up,right,down,left)
         //Adjacent Postion X / Y
         const int adjCount = 4; 
@@ -209,6 +229,7 @@ NodeList* PathSolver::getPath(Env env){
         }
         BWsolution->addElement(nextNode);
 
+        //ending the loop when the shortest path reaches the start
         if(nodeEquals(nextNode,nodesExplored->getNode(0))){
                 unsolved = false;
         }

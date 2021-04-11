@@ -2,12 +2,12 @@
 #include <iostream>
 
 NodeList::NodeList(){
-    // TODO
+    //Length of the NodeList is set to the starting index of 0
     length = 0;
 }
 
 NodeList::~NodeList(){
-    // TODO
+    //Loops through the NodeList and calls the Node deconstructer for each Node
     int len = this->getLength();
     for(int i=0; i<len; i++){
         delete(this->getNode(i));
@@ -15,7 +15,7 @@ NodeList::~NodeList(){
 }
 
 NodeList::NodeList(NodeList& other){
-    // TODO
+    //Loops through NodeList and makes a deep copy of each node. 
     length = 0;
     int len = other.getLength();
     for (int i = 0; i < len; i++ ){
@@ -25,18 +25,16 @@ NodeList::NodeList(NodeList& other){
 }
 
 int NodeList::getLength(){
-    // TODO
     return this->length;
 }
 
 void NodeList::addElement(Node* newPos){
-    // TODO
+    //Adds new node and increases the node count (length) by 1
     nodes[length] = new Node(*newPos);
 
     length++;
 }
 
 Node* NodeList::getNode(int i){
-    // TODO
     return nodes[i];
 }

@@ -1,6 +1,7 @@
 #include "Node.h"
 #include <iostream>
 #include <cmath>
+//Imported cmath in order to find absolute values. Used in manhattan calculation
 
 
 Node::Node(int row, int col, int dist_traveled):
@@ -22,32 +23,27 @@ Node::Node(Node &other):
 }
 
 Node::~Node(){
-    // TODO
 }
 
 int Node::getRow(){
-    // TODO
     return row;
 }
 
 int Node::getCol(){
-    // TODO
     return col;
 }
 
 int Node::getDistanceTraveled(){
-    // TODO
     return dist_traveled;
 }
 
 void Node::setDistanceTraveled(int dist_traveled)
 {
-    // TODO
+    //Setting object value to passed in variable
     this->dist_traveled = dist_traveled;
 }
 
 int Node::getEstimatedDist2Goal(Node* goal){
-    // TODO
     //First must calculate manhattan distance
     //Abs method gives absolute values
     int colDiff = std::abs(col - goal->getCol());
