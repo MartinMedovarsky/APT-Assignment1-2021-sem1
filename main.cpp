@@ -30,10 +30,10 @@ int main(int argc, char** argv){
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    //std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
     //testNode();
     //testNodeList();
-    std::cout << "DONE TESTING" << std::endl << std::endl;
+    //std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
@@ -75,17 +75,17 @@ void printEnvStdout(Env env, NodeList* solution) {
 
     int len = solution->getLength();
 
-    Node* current = solution->getNode(0);
-    Node* next = solution->getNode(1);
+    Node* current = solution->getNode(1);
+    Node* next = solution->getNode(2);
     //Loops through solutions and edits ENV with arrows to display solution
-    for(int i=0; i<len-2; i++){
+    for(int i=0; i<len-1; i++){
         if(next->getCol() > current->getCol()){
-            env[next->getRow()][next->getCol()] = '>';
+            env[current->getRow()][current->getCol()] = '>';
         } else if (next->getCol() < current->getCol()){
-            env[next->getRow()][next->getCol()] = '<';
+            env[current->getRow()][current->getCol()] = '<';
         } else if (next->getRow() > current->getRow()){
-            env[next->getRow()][next->getCol()] = 'V';
-        } else {env[next->getRow()][next->getCol()] = '^';}
+            env[current->getRow()][current->getCol()] = 'v';
+        } else {env[current->getRow()][current->getCol()] = '^';}
 
         //checks where the loop is upto and prevents accessing non-existent node
         if (i == len-1){   
@@ -96,7 +96,6 @@ void printEnvStdout(Env env, NodeList* solution) {
     }
 
     //Prints out edited env which displays solution
-    cout << "PRINTING SOLUTION" << endl;
     for(int y=0; y < 20; y++){
         for(int x=0; x < 20; x++){
             cout << env[y][x];
